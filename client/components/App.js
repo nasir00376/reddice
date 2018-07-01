@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const app = () => {
-    return (
-        <h1>Allah is one!</h1>
-    );
+class App extends Component {
+    render() {
+        return (
+            <h1>Allah is One!!!This is universal</h1>
+        )
+    }
 }
 
-export default app;
+export default App;
