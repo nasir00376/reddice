@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
+import NavigationBar from './Navigation/NavigationBar';
+import Content from './Content/Content';
 
 class App extends Component {
     render() {
         return (
-            <h1>Allah is One!!!This is universal</h1>
-        )
+            <div>
+                <NavigationBar/>
+                <Content />
+            </div>
+        );
     }
 }
 
