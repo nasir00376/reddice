@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import timezones from '../../../data/timezone';
 
 class SignupForm extends Component {
@@ -16,12 +17,12 @@ class SignupForm extends Component {
     }
     onSubmit(e) {
         e.preventDefault();
-        console.log(this.state);
+        this.props.userSignupRequest({ user: this.state });
     }
 
     render() {
-        const options = Object.keys(timezones)
-                            .map(key => <option key={key} value={timezones[key]}>{key}</option>)
+        const options = Object.keys(timezones).map(key => <option key={key} value={timezones[key]}>{key}</option>)
+
         return (
             <form onSubmit={this.onSubmit.bind(this)}>
                 <h1>Join our community!</h1>
@@ -84,6 +85,10 @@ class SignupForm extends Component {
             </form>
         )     
     }
+}
+
+SignupForm.propTypes = {
+    userSignupRequest: PropTypes.func.isRequired
 }
 
 export default SignupForm;
