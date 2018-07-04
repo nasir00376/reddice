@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import timezones from '../../../data/timezone';
+import classnames from 'classnames';
 
 class SignupForm extends Component {
     state = {
@@ -8,7 +9,9 @@ class SignupForm extends Component {
         email: '',
         password: '',
         passwordConfirmation: '',
-        timezone: ''
+        timezone: '',
+        errors: {},
+        isLoading: false
 
     }
 
@@ -17,16 +20,29 @@ class SignupForm extends Component {
     }
     onSubmit(e) {
         e.preventDefault();
-        this.props.userSignupRequest({ user: this.state });
+        this.setState({ errors: {}, isLoading: true });
+
+        this.props.userSignupRequest({ user: this.state }).then(
+            () => {
+            //   this.props.addFlashMessage({
+            //     type: 'success',
+            //     text: 'You signed up successfully. Welcome!'
+            //   });
+            //   this.context.router.push('/');
+            },
+            (err) => this.setState({ errors: err.response.data, isLoading: false })
+          );
     }
 
     render() {
-        const options = Object.keys(timezones).map(key => <option key={key} value={timezones[key]}>{key}</option>)
+        const { errors } = this.state;
+        const options = Object.keys(timezones).map(key => 
+            <option key={key} value={timezones[key]}>{key}</option>);
 
         return (
             <form onSubmit={this.onSubmit.bind(this)}>
                 <h1>Join our community!</h1>
-                <div className="form-group">
+                <div className={classnames("form-group", { 'has-error': errors.username })}>
                     <label className="control-label">Username</label>
                     <input
                         value={this.state.username}
@@ -35,6 +51,7 @@ class SignupForm extends Component {
                         className="form-control"
                         onChange={this.onChangeHandler.bind(this)}
                     />
+                    {errors.username && <span className="help-block">{errors.username}</span>}
                 </div>
                 <div className="form-group">
                     <label className="control-label">Email</label>

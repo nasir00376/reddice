@@ -7,7 +7,7 @@ class App extends Component {
         return (
             <div>
                 <NavigationBar/>
-                
+                    <div style={{marginTop: '1em'}}></div>
                 <Content />
             </div>
         );

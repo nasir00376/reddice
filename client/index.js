@@ -3,16 +3,39 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux'; 
 
 import App from './components/App';
 
-const render = Component => 
-    ReactDOM.render(
-        <AppContainer>
+/**
+ * @param rootReducer
+ * @param initialSate
+ * @param applyMiddleware
+ * takes state and return state
+ * 
+ */
+
+const store = createStore(
+    (state = {}) => state,
+    applyMiddleware(thunk)
+);
+
+const redDice = Component => (
+
+    <AppContainer>
+        <Provider store={store}>
             <Router>
                 <Component />
             </Router>
-        </AppContainer>,
+        </Provider>
+    </AppContainer>
+);
+
+const render = Component => 
+    ReactDOM.render(
+        redDice(Component),
         document.getElementById('app')
     );
 
